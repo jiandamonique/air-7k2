@@ -361,9 +361,49 @@ nav.topnav {
   padding: 6px 10px;
 }
 .lightbox-close:hover { color: #fff; }
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,.08);
+  border: none;
+  color: rgba(255,255,255,.85);
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: background .2s, color .2s;
+}
+.lightbox-nav:hover { background: rgba(255,255,255,.18); color: #fff; }
+.lightbox-prev { left: 12px; }
+.lightbox-next { right: 12px; }
 @media (max-width: 560px) {
   .lightbox-overlay { padding: 20px 12px; }
   .lightbox-caption { font-size: .68rem; bottom: 14px; }
+  .lightbox-nav { font-size: 1.6rem; padding: 8px 10px; }
+  .lightbox-prev { left: 4px; }
+  .lightbox-next { right: 4px; }
+}
+
+/* ─── Spotify popup player ───────────────────────────────────── */
+.spotify-popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 30, .8);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.spotify-popup-overlay.open { display: flex; }
+.spotify-popup-box {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 .painting-body { padding: 14px 16px 18px; }
 .painting-body h3 {
@@ -754,7 +794,7 @@ a { color: var(--lavender, #8b5cf6); }
 <!-- NAV -->
 <nav class="topnav">
   <div class="topnav-inner">
-    <a href="https://jiandamonique.github.io/air-7k2/creativeyear.html#top" class="nav-brand" aria-label="Jianda Monique — top of page" style="display:inline-block;width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid var(--line);flex-shrink:0;vertical-align:middle;"><img src="https://jiandamonique.github.io/og-image.jpg" alt="Jianda Monique" style="width:100%;height:100%;object-fit:cover;display:block;"></a>
+    <a href="https://jiandamonique.github.io/air-7k2/creativeyear.html#top" class="nav-brand" aria-label="Jianda Monique — top of page" style="display:inline-block;width:34px;height:34px;border-radius:50%;overflow:hidden;border:2px solid var(--line);flex-shrink:0;vertical-align:middle;"><img src="data:image/jpeg;base64,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" alt="Jianda Monique" style="width:100%;height:100%;object-fit:cover;display:block;"></a>
     <button class="nav-toggle-btn" id="nav-toggle-btn" onclick="toggleNav()" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav-links-list">
       <span></span><span></span><span></span>
     </button>
@@ -785,7 +825,7 @@ a { color: var(--lavender, #8b5cf6); }
         <p class="lead">Creation with intention: paintings, music, films, stories, software, presence — a multimedia practice and teaching, spanning seasons.</p>
         <div class="hero-btns">
           <a href="#" onclick="openTour();return false;" class="btn primary">See the work</a>
-          <a href="https://jiandamonique.github.io/air-7k2/creativeyear.html#contact" class="btn outline">Get in touch</a>
+          <a href="mailto:heartsongs101@gmail.com" class="btn outline">Get in touch</a>
         </div>
 
         <!-- Discipline tags -->
@@ -947,7 +987,7 @@ a { color: var(--lavender, #8b5cf6); }
             <h3 style="font-family:'Fraunces',serif;font-size:1rem;margin-bottom:4px;">Lo-Fi Lullabies</h3>
             <p style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink-soft);margin-bottom:4px;line-height:1.5;">Jianda Monique Lounge, Vol. 1</p>
             <p style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--ink-soft);margin-bottom:14px;">℗ 2019 &middot; Sept 19, 2019</p>
-            <a href="https://open.spotify.com/album/3luAxxX0AZ5pDrfLbgW3YX" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;" target="_blank" rel="noopener">▶ Listen</a>
+            <a href="https://open.spotify.com/album/3luAxxX0AZ5pDrfLbgW3YX" onclick="return openSpotifyPopup('https://open.spotify.com/embed/album/3luAxxX0AZ5pDrfLbgW3YX?utm_source=generator&autoplay=1')" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;">▶ Listen</a>
           </div>
 
 
@@ -958,7 +998,7 @@ a { color: var(--lavender, #8b5cf6); }
             <p style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink-soft);margin-bottom:4px;line-height:1.5;">Space Age Electronica, Vol. 1</p>
             <p style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--ink-soft);margin-bottom:14px;">℗ 2019 &middot; Apr 25, 2020</p>
 
-            <a href="https://open.spotify.com/album/6hUWsijPijdiVuQ3oPHVjs" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;" target="_blank" rel="noopener">▶ Listen</a>
+            <a href="https://open.spotify.com/album/6hUWsijPijdiVuQ3oPHVjs" onclick="return openSpotifyPopup('https://open.spotify.com/embed/album/6hUWsijPijdiVuQ3oPHVjs?utm_source=generator&autoplay=1')" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;">▶ Listen</a>
           </div>
 
         </div>
@@ -991,7 +1031,7 @@ a { color: var(--lavender, #8b5cf6); }
         <div class="stream-links">
           <div class="label">Stream on</div>
           <div class="stream-pills">
-            <a href="https://open.spotify.com/artist/4zgJ2DkzPUebzvG6LevAdR" class="stream-pill" target="_blank" rel="noopener">Spotify</a>
+            <a href="https://open.spotify.com/artist/4zgJ2DkzPUebzvG6LevAdR" onclick="return openSpotifyPopup('https://open.spotify.com/embed/artist/4zgJ2DkzPUebzvG6LevAdR?utm_source=generator&autoplay=1')" class="stream-pill">Spotify</a>
             <a href="https://music.apple.com/ng/artist/jianda-monique/392062183" class="stream-pill" target="_blank" rel="noopener">Apple Music</a>
             <a href="https://www.amazon.com/music/player/artists/B0042MKKTS/jianda-monique" class="stream-pill" target="_blank" rel="noopener">Amazon Music</a>
             <a href="https://soundcloud.com/jiandamonique/tracks" class="stream-pill" target="_blank" rel="noopener">SoundCloud</a>
@@ -1011,43 +1051,49 @@ a { color: var(--lavender, #8b5cf6); }
         <div class="eyebrow" style="margin-bottom:2px;">Music Video &mdash; Cup of Tea</div>
         <p style="font-family:'Fraunces',serif;font-size:.78rem;font-style:italic;color:var(--ink-soft);margin:0 0 10px;">dir: Jianda Monique</p>
         <div class="video-wrap">
-          <a class="yt-link" href="https://open.spotify.com/track/1bJAwoPIyanyN1HMMl6mJg" target="_blank" rel="noopener" aria-label="Play Cup of Tea on Spotify">
+          <a class="yt-link" href="https://open.spotify.com/track/1bJAwoPIyanyN1HMMl6mJg" onclick="return openSpotifyPopup('https://open.spotify.com/embed/track/1bJAwoPIyanyN1HMMl6mJg?utm_source=generator&autoplay=1')" aria-label="Play Cup of Tea on Spotify">
             <img src="https://i.scdn.co/image/ab67616d0000b27392abd10c3eb33540a30c1ac2" alt="Cup of Tea — Jianda Monique (Spotify cover art)" loading="lazy">
             <span class="yt-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
           </a>
         </div>
+        <div style="margin-top:10px;">
+          <a href="https://open.spotify.com/track/1bJAwoPIyanyN1HMMl6mJg" onclick="return openSpotifyPopup('https://open.spotify.com/embed/track/1bJAwoPIyanyN1HMMl6mJg?utm_source=generator&autoplay=1')" class="btn primary" style="font-size:.65rem;padding:8px 16px;">▶ play on page</a>
+        </div>
         <p style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink-soft);margin-top:10px;">
           Selected for QWOCMAP (Queer Women of Color Media Arts Project) Film Festival
         </p>
-        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="https://www.youtube.com/watch?v=RQWS0gyI34A" class="btn outline" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">🎬 Watch music video (opens in new tab)</a>
-          <a href="https://open.spotify.com/track/1bJAwoPIyanyN1HMMl6mJg" class="btn primary" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">▶ play on page</a>
-        </div>
         <div style="margin-top:10px;max-width:280px;">
-          <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;">
-            <iframe src="https://www.youtube.com/embed/RQWS0gyI34A?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" title="Cup of Tea music video" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <div class="yt-embed-facade" id="cot-embed" style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;cursor:pointer;background:#000;" onclick="loadYtEmbed('cot-embed','RQWS0gyI34A','Cup of Tea music video')">
+            <img src="https://img.youtube.com/vi/RQWS0gyI34A/hqdefault.jpg" alt="Cup of Tea music video thumbnail" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></span>
           </div>
+        </div>
+        <div style="margin-top:10px;">
+          <a href="https://www.youtube.com/watch?v=RQWS0gyI34A" class="btn outline" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">🎬 Watch music video (opens in new tab)</a>
         </div>
 
         <div class="eyebrow" style="margin-bottom:2px;margin-top:28px;">Music Video &mdash; Feel Our Way</div>
         <p style="font-family:'Fraunces',serif;font-size:.78rem;font-style:italic;color:var(--ink-soft);margin:0 0 10px;">dir: Jianda Monique</p>
         <div class="video-wrap">
-          <a class="yt-link" href="https://open.spotify.com/track/60rXKhq6PYaWpzMf9XncSM" target="_blank" rel="noopener" aria-label="Play Feel Our Way on Spotify">
+          <a class="yt-link" href="https://open.spotify.com/track/60rXKhq6PYaWpzMf9XncSM" onclick="return openSpotifyPopup('https://open.spotify.com/embed/track/60rXKhq6PYaWpzMf9XncSM?utm_source=generator&autoplay=1')" aria-label="Play Feel Our Way on Spotify">
             <img src="https://i.scdn.co/image/ab67616d0000b27304a5ec91e784a262d85501a4" alt="Feel Our Way — Jianda Monique (Spotify cover art)" loading="lazy">
             <span class="yt-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
           </a>
         </div>
+        <div style="margin-top:10px;">
+          <a href="https://open.spotify.com/track/60rXKhq6PYaWpzMf9XncSM" onclick="return openSpotifyPopup('https://open.spotify.com/embed/track/60rXKhq6PYaWpzMf9XncSM?utm_source=generator&autoplay=1')" class="btn primary" style="font-size:.65rem;padding:8px 16px;">▶ play on page</a>
+        </div>
         <p style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink-soft);margin-top:10px;">
           Written, directed, and distributed independently
         </p>
-        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="https://www.youtube.com/watch?v=aFjbRN7p7XU" class="btn outline" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">🎬 Watch music video (opens in new tab)</a>
-          <a href="https://open.spotify.com/track/60rXKhq6PYaWpzMf9XncSM" class="btn primary" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">▶ play on page</a>
-        </div>
         <div style="margin-top:10px;max-width:280px;">
-          <div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;">
-            <iframe src="https://www.youtube.com/embed/aFjbRN7p7XU?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" title="Feel Our Way music video" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <div class="yt-embed-facade" id="fow-embed" style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;cursor:pointer;background:#000;" onclick="loadYtEmbed('fow-embed','aFjbRN7p7XU','Feel Our Way music video')">
+            <img src="https://img.youtube.com/vi/aFjbRN7p7XU/hqdefault.jpg" alt="Feel Our Way music video thumbnail" loading="lazy" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+            <span style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></span>
           </div>
+        </div>
+        <div style="margin-top:10px;">
+          <a href="https://www.youtube.com/watch?v=aFjbRN7p7XU" class="btn outline" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">🎬 Watch music video (opens in new tab)</a>
         </div>
       </div>
 
@@ -1084,7 +1130,7 @@ a { color: var(--lavender, #8b5cf6); }
       <div>
         <h3>Audio-poems &amp; songs</h3>
         <p>Producer and multi-instrumentalist across 300+ audio-poems and songs, streaming on all platforms — the full solo catalog, alongside the guest and collaborative work above. Recorded across two decades on whatever was on hand: a voice memo, a garage, waiting for the bus — so quality varies widely. The albums below are the sifted, best-sounding cut of that library, where time and equipment lined up enough to finish a song properly.</p>
-        <a href="https://open.spotify.com/artist/4zgJ2DkzPUebzvG6LevAdR" class="btn primary" style="margin-top:14px;font-size:.68rem;padding:9px 18px;" target="_blank" rel="noopener">Listen on Spotify &rarr;</a>
+        <a href="https://open.spotify.com/artist/4zgJ2DkzPUebzvG6LevAdR" onclick="return openSpotifyPopup('https://open.spotify.com/embed/artist/4zgJ2DkzPUebzvG6LevAdR?utm_source=generator&autoplay=1')" class="btn primary" style="margin-top:14px;font-size:.68rem;padding:9px 18px;">Listen on Spotify &rarr;</a>
       </div>
     </div>
 
@@ -1886,8 +1932,11 @@ a { color: var(--lavender, #8b5cf6); }
 </div>
 
 <!-- LIGHTBOX -->
-<div id="lightbox" onclick="closeLightbox()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;">
-  <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+<div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;">
+  <div onclick="closeLightbox()" style="position:absolute;inset:0;"></div>
+  <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); galleryLightboxStep(-1)" aria-label="Previous photo" style="z-index:1;">&#8249;</button>
+  <img id="lightbox-img" src="" alt="" onclick="event.stopPropagation();" style="position:relative;z-index:1;max-width:90vw;max-height:90vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.6);">
+  <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); galleryLightboxStep(1)" aria-label="Next photo" style="z-index:1;">&#8250;</button>
 </div>
 
 <!-- WHAT I'D DO WITH A YEAR -->
@@ -1903,7 +1952,7 @@ a { color: var(--lavender, #8b5cf6); }
     <p>The body of work is already the proof. The question a year as Artist in Residence answers isn't <em>can Jianda make work</em> — it's <em>what does Jianda make and share, knowing she has room to develop and breathe?</em></p>
 
     <p style="margin-top:28px;"><strong style="font-family:'Fraunces',serif;font-size:1.1rem;">First priority: the work itself.</strong></p>
-    <p>Deepen and expand the multimedia praxis and practice — working at scale, in series, with the kind of sustained attention that rationed time doesn't allow. For instance, expanding my painting skills, collection, and outreach to curators or buyers. A year gives me the room to better the quality and what is and what will be. Another example... music surfaces when it wants to be written; the residency gives me the conditions to finish and release an album properly, not in fragments between obligations.</p>
+    <p>Deepen and expand the multimedia praxis and practice — working at scale, in series, with the kind of sustained attention that rationed time doesn't allow. For instance, expanding my painting skills, collection, and outreach to curators or buyers. A year gives me room to do the version of this work I can only sketch right now — fewer half-finished pieces, real technical growth, art built to be shown instead of squeezed in around everything else. Another example... music surfaces when it wants to be written; the residency gives me the conditions to finish and release an album properly, not in fragments between obligations.</p>
 
     <p style="margin-top:28px;"><strong style="font-family:'Fraunces',serif;font-size:1.1rem;">Second: build it in public.</strong></p>
     <p>Everything made during the year, documented as it's being made — process, work-in-progress, essays on what it means to be an artist first when the world keeps asking you to be something else. Your program is the right home for this — built for exactly this kind of direct creator-to-audience relationship — and I'd use it as both distribution and proof of concept. I'd use it to inspire others to create from a safe space.</p>
@@ -1969,10 +2018,10 @@ a { color: var(--lavender, #8b5cf6); }
       <p id="cf-fallback" style="display:none;margin-top:14px;font-size:.8rem;color:var(--ink-soft);line-height:1.6;">Your email app should have just opened with this pre-filled. If nothing happened, no default mail app is set up on this device — please email <a href="mailto:heartsongs101@gmail.com">heartsongs101@gmail.com</a> - all set!</p>
     </div>
 
-    <div style="margin-top:52px;padding-top:40px;border-top:1px solid var(--line);max-width:580px;margin-left:auto;margin-right:auto;">
+    <div style="margin-top:52px;padding-top:40px;border-top:1px solid var(--line);max-width:580px;margin-left:auto;margin-right:auto;text-align:center;">
       <div class="eyebrow">A note on where I am right now</div>
       <h3 style="font-family:'Fraunces',serif;font-size:1.3rem;margin-bottom:10px;">Sustaining Free Tools for Artists</h3>
-      <p style="color:var(--ink-soft);font-size:.95rem;margin-bottom:16px;">I lost my remote tech job in June 2026. I've been a working artist my whole life — holding one or two jobs at a time, composing songs on the bus between shifts, going home to paint or code or write. That's the Raymond Carver model: you make your work anyway, in the margins, because the alternative is not making it.</p>
+      <p style="color:var(--ink-soft);font-size:.95rem;margin-bottom:16px;">I lost my remote tech job in June 2026. Same working-artist model as above — one or two jobs at a time, making the work in the margins anyway. This is just the current version of that.</p>
       <p style="color:var(--ink-soft);font-size:.95rem;margin-bottom:20px;">Since June I've been caregiving for a relative and scrambling to patch income together while continuing to build. I recently launched a GoFundMe to try to sustain the open tools while I figure out the next chapter. It's at zero. I'm sharing it here anyway — because this is where I am, and I'd rather be honest about that than not.</p>
       <a href="https://www.gofundme.com/f/sustaining-free-tools-for-artists" class="btn primary" target="_blank" rel="noopener">Sustaining Free Tools for Artists &rarr;</a>
     </div>
@@ -1989,8 +2038,18 @@ a { color: var(--lavender, #8b5cf6); }
 <!-- PAINTING LIGHTBOX -->
 <div class="lightbox-overlay" id="painting-lightbox-overlay" onclick="if(event.target===this) closePaintingLightbox();">
   <button class="lightbox-close" onclick="closePaintingLightbox()" aria-label="Close">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); paintingLightboxStep(-1)" aria-label="Previous painting">&#8249;</button>
   <img id="painting-lightbox-img" src="" alt="">
+  <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); paintingLightboxStep(1)" aria-label="Next painting">&#8250;</button>
   <div class="lightbox-caption" id="painting-lightbox-caption"></div>
+</div>
+
+<!-- SPOTIFY POPUP PLAYER -->
+<div class="spotify-popup-overlay" id="spotify-popup-overlay" onclick="if(event.target===this) closeSpotifyPopup();">
+  <div class="spotify-popup-box">
+    <button class="lightbox-close" style="position:static;align-self:flex-end;" onclick="closeSpotifyPopup()" aria-label="Close">&times;</button>
+    <iframe id="spotify-popup-iframe" src="" width="100%" height="380" style="border-radius:12px;border:0;" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
 </div>
 
 <!-- AMBIENT PLAYER WIDGET -->
@@ -2075,8 +2134,8 @@ var ambientOpen = false;
 var currentMood = null;
 
 var moodSrcs = {
-  lofi: 'https://open.spotify.com/embed/album/3luAxxX0AZ5pDrfLbgW3YX?utm_source=generator',
-  soul: 'https://open.spotify.com/embed/album/6hUWsijPijdiVuQ3oPHVjs?utm_source=generator'
+  lofi: 'https://open.spotify.com/embed/album/3luAxxX0AZ5pDrfLbgW3YX?utm_source=generator&autoplay=1',
+  soul: 'https://open.spotify.com/embed/album/6hUWsijPijdiVuQ3oPHVjs?utm_source=generator&autoplay=1'
 };
 var moodLabels = { lofi: '♪ lo-fi', soul: '✦ electronic' };
 var pillIds = { lofi: 'pill-lofi', soul: 'pill-soul' };
@@ -2103,13 +2162,24 @@ function playMood(mood) {
 }
 
 /* ── Painting lightbox ─────────────────────────────────── */
-function openPaintingLightbox(imgEl) {
-  var overlay = document.getElementById('painting-lightbox-overlay');
+var paintingImages = [];
+var paintingLightboxIndex = -1;
+
+function showPaintingAt(index) {
   var img     = document.getElementById('painting-lightbox-img');
   var caption = document.getElementById('painting-lightbox-caption');
-  img.src = imgEl.src;
-  img.alt = imgEl.alt;
-  caption.textContent = imgEl.alt || '';
+  var el = paintingImages[index];
+  img.src = el.src;
+  img.alt = el.alt;
+  caption.textContent = el.alt || '';
+  paintingLightboxIndex = index;
+}
+
+function openPaintingLightbox(imgEl) {
+  var overlay = document.getElementById('painting-lightbox-overlay');
+  paintingImages = Array.prototype.slice.call(document.querySelectorAll('.painting-img'));
+  var index = paintingImages.indexOf(imgEl);
+  showPaintingAt(index === -1 ? 0 : index);
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -2119,11 +2189,101 @@ function closePaintingLightbox() {
   var img     = document.getElementById('painting-lightbox-img');
   overlay.classList.remove('open');
   img.src = '';
+  paintingLightboxIndex = -1;
   document.body.style.overflow = '';
 }
 
+function paintingLightboxStep(dir) {
+  if (paintingLightboxIndex === -1 || !paintingImages.length) return;
+  var next = (paintingLightboxIndex + dir + paintingImages.length) % paintingImages.length;
+  showPaintingAt(next);
+}
+
 document.addEventListener('keydown', function(e) {
+  var overlay = document.getElementById('painting-lightbox-overlay');
+  if (!overlay || !overlay.classList.contains('open')) return;
   if (e.key === 'Escape') closePaintingLightbox();
+  else if (e.key === 'ArrowLeft') paintingLightboxStep(-1);
+  else if (e.key === 'ArrowRight') paintingLightboxStep(1);
+});
+
+/* ── Spotify popup player ──────────────────────────────── */
+function openSpotifyPopup(embedUrl) {
+  var overlay = document.getElementById('spotify-popup-overlay');
+  var iframe  = document.getElementById('spotify-popup-iframe');
+  iframe.src = embedUrl;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  return false;
+}
+
+function closeSpotifyPopup() {
+  var overlay = document.getElementById('spotify-popup-overlay');
+  var iframe  = document.getElementById('spotify-popup-iframe');
+  overlay.classList.remove('open');
+  iframe.src = '';
+  document.body.style.overflow = '';
+}
+
+/* ── Click-to-load YouTube embed facade, with graceful error fallback ── */
+var ytApiReady = false;
+var ytApiLoading = false;
+var ytPendingLoads = [];
+
+function ensureYtApi() {
+  if (ytApiReady || ytApiLoading) return;
+  ytApiLoading = true;
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+}
+
+function onYouTubeIframeAPIReady() {
+  ytApiReady = true;
+  ytPendingLoads.forEach(function(args) { createYtPlayer.apply(null, args); });
+  ytPendingLoads = [];
+}
+
+function loadYtEmbed(containerId, videoId, title) {
+  var el = document.getElementById(containerId);
+  if (!el) return;
+  var thumbUrl = 'https://img.youtube.com/vi/' + videoId + '/hqdefault.jpg';
+  var mountId = containerId + '-mount';
+  el.outerHTML = '<div style="position:relative;width:100%;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;background:#000;" id="' + mountId + '-wrap">' +
+    '<div id="' + mountId + '" style="position:absolute;top:0;left:0;width:100%;height:100%;"></div></div>';
+  ensureYtApi();
+  if (ytApiReady) {
+    createYtPlayer(mountId, videoId, title, thumbUrl);
+  } else {
+    ytPendingLoads.push([mountId, videoId, title, thumbUrl]);
+  }
+}
+
+function createYtPlayer(mountId, videoId, title, thumbUrl) {
+  var mount = document.getElementById(mountId);
+  if (!mount) return;
+  new YT.Player(mountId, {
+    videoId: videoId,
+    playerVars: { autoplay: 1, rel: 0 },
+    events: {
+      onError: function() { showYtFallback(mountId, videoId, title, thumbUrl); }
+    }
+  });
+}
+
+function showYtFallback(mountId, videoId, title, thumbUrl) {
+  var wrap = document.getElementById(mountId + '-wrap');
+  if (!wrap) return;
+  wrap.innerHTML =
+    '<img src="' + thumbUrl + '" alt="' + title + ' thumbnail" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">' +
+    '<a href="https://www.youtube.com/watch?v=' + videoId + '" target="_blank" rel="noopener" aria-label="Watch ' + title + ' on YouTube" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">' +
+      '<span style="width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff;margin-left:2px;"><path d="M8 5v14l11-7z"/></svg></span>' +
+    '</a>';
+}
+
+document.addEventListener('keydown', function(e) {
+  var overlay = document.getElementById('spotify-popup-overlay');
+  if (overlay && overlay.classList.contains('open') && e.key === 'Escape') closeSpotifyPopup();
 });
 
 document.querySelectorAll('.painting-img').forEach(function(img) {
@@ -2217,18 +2377,42 @@ function toggleAmbient() { ambientOpen ? closeAmbient() : (currentMood ? playMoo
 function toggleTheme() { cycleSeason(); }
 
 /* ── Lightbox ─────────────────────────────────────────── */
-function openLightbox(cell) {
+var galleryCells = [];
+var galleryLightboxIndex = -1;
+
+function showGalleryAt(index) {
+  var cell = galleryCells[index];
   var img = cell.querySelector('img');
   document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox-img').alt = img.alt || '';
+  galleryLightboxIndex = index;
+}
+
+function openLightbox(cell) {
+  galleryCells = Array.prototype.slice.call(document.querySelectorAll('.gal-cell'));
+  var index = galleryCells.indexOf(cell);
+  showGalleryAt(index === -1 ? 0 : index);
   var lb = document.getElementById('lightbox');
   lb.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
 function closeLightbox() {
   document.getElementById('lightbox').style.display = 'none';
+  galleryLightboxIndex = -1;
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+function galleryLightboxStep(dir) {
+  if (galleryLightboxIndex === -1 || !galleryCells.length) return;
+  var next = (galleryLightboxIndex + dir + galleryCells.length) % galleryCells.length;
+  showGalleryAt(next);
+}
+document.addEventListener('keydown', function(e) {
+  var lb = document.getElementById('lightbox');
+  if (!lb || lb.style.display !== 'flex') return;
+  if (e.key === 'Escape') closeLightbox();
+  else if (e.key === 'ArrowLeft') galleryLightboxStep(-1);
+  else if (e.key === 'ArrowRight') galleryLightboxStep(1);
+});
 
 /* ── Tour overlay ────────────────────────────────────── */
 function openTour() {
