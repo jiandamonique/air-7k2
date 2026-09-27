@@ -143,13 +143,28 @@ nav.topnav {
 }
 .nav-links a {
   font-family: 'Space Mono', monospace;
-  font-size: .58rem;
+  font-size: .75rem;
   letter-spacing: .05em;
   color: var(--ink-soft);
   text-transform: uppercase;
   white-space: nowrap;
 }
 .nav-links a:hover { color: var(--lavender); text-decoration: none; }
+.nav-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--lavender);
+  background: none;
+  color: var(--lavender);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background .15s, color .15s;
+}
+.nav-play-btn:hover { background: var(--lavender); color: #fff; }
 .nav-toggle-btn { display: none; }
 @media (max-width: 560px) {
   .nav-toggle-btn {
@@ -233,7 +248,7 @@ nav.topnav {
   bottom: -22px;
   left: 4px;
   font-family: 'Space Mono', monospace;
-  font-size: .55rem;
+  font-size: .75rem;
   letter-spacing: .1em;
   color: #888;
   pointer-events: none;
@@ -296,6 +311,59 @@ nav.topnav {
   aspect-ratio: 3/4;
   object-fit: cover;
   object-position: center top;
+  transition: transform .3s ease;
+  cursor: zoom-in;
+}
+.painting-card:hover .painting-img { transform: scale(1.08); }
+
+/* ─── Painting lightbox ──────────────────────────────────────── */
+.lightbox-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 30, .92);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  cursor: zoom-out;
+}
+.lightbox-overlay.open { display: flex; }
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  cursor: default;
+}
+.lightbox-caption {
+  position: absolute;
+  bottom: 24px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .04em;
+  color: rgba(255,255,255,.85);
+}
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.8);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+.lightbox-close:hover { color: #fff; }
+@media (max-width: 560px) {
+  .lightbox-overlay { padding: 20px 12px; }
+  .lightbox-caption { font-size: .68rem; bottom: 14px; }
 }
 .painting-body { padding: 14px 16px 18px; }
 .painting-body h3 {
@@ -304,7 +372,7 @@ nav.topnav {
 }
 .painting-sku {
   font-family: 'Space Mono', monospace;
-  font-size: .65rem;
+  font-size: .75rem;
   color: var(--lavender);
   letter-spacing: .08em;
 }
@@ -585,7 +653,7 @@ a { color: var(--lavender, #8b5cf6); }
 /* Theme toggle pill */
 .theme-toggle {
   font-family: 'Space Mono', monospace;
-  font-size: .6rem;
+  font-size: .75rem;
   letter-spacing: .08em;
   text-transform: uppercase;
   background: var(--card-bg, #f7f0ff);
@@ -694,11 +762,14 @@ a { color: var(--lavender, #8b5cf6); }
       <li><a href="#paintings" onclick="closeNav()">Paintings</a></li>
       <li><a href="#music" onclick="closeNav()">Music &amp; Film</a></li>
       <li><a href="#writing" onclick="closeNav()">Writing</a></li>
-      <li><a href="#builder" onclick="closeNav()">Builder</a></li>
+      <li><a href="#builder" onclick="closeNav()">Apps &amp; Games</a></li>
       <li><a href="#wip" onclick="closeNav()">Studio Life</a></li>
       <li><a href="#vision" onclick="closeNav()">The Year</a></li>
       <li><a href="#contact" onclick="closeNav()">Contact</a></li>
     </ul>
+    <button class="nav-play-btn" onclick="openTour();return false;" title="Start Here" aria-label="Start Here — tour the site">
+      <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+    </button>
     <button class="theme-toggle" id="theme-toggle-btn" onclick="cycleSeason()" title="Choose mood">choose mood</button>
   </div>
 </nav>
@@ -714,7 +785,7 @@ a { color: var(--lavender, #8b5cf6); }
         <p class="lead">Creation with intention: paintings, music, films, stories, software, presence — a multimedia practice and teaching, spanning seasons.</p>
         <div class="hero-btns">
           <a href="#" onclick="openTour();return false;" class="btn primary">See the work</a>
-          <a href="mailto:heartsongs101@gmail.com" class="btn outline">Get in touch</a>
+          <a href="#contact" class="btn outline">Get in touch</a>
         </div>
 
         <!-- Discipline tags -->
@@ -876,8 +947,8 @@ a { color: var(--lavender, #8b5cf6); }
             <h3 style="font-family:'Fraunces',serif;font-size:1rem;margin-bottom:4px;">Lo-Fi Lullabies</h3>
             <p style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink-soft);margin-bottom:4px;line-height:1.5;">Jianda Monique Lounge, Vol. 1</p>
             <p style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--ink-soft);margin-bottom:14px;">℗ 2019 &middot; Sept 19, 2019</p>
-            <a href="https://www.youtube.com/watch?v=gRy9Vj3S5DU&list=PLETc0a8Y6tFsQSpjyqn2_ZKNoVBlimjQN" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;margin-bottom:10px;" target="_blank" rel="noopener">▶ Listen</a><br>
-            <button onclick="playMood('lofi')" style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--lavender);background:none;border:1px solid var(--lavender);border-radius:100px;padding:5px 12px;cursor:pointer;margin-top:4px;"><span class="note-dance" style="margin-right:3px;">♪</span> play in widget</button>
+            <a href="https://open.spotify.com/album/3luAxxX0AZ5pDrfLbgW3YX" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;margin-bottom:10px;" target="_blank" rel="noopener">▶ Listen</a><br>
+            <button onclick="playMood('lofi')" style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--lavender);background:none;border:1px solid var(--lavender);border-radius:100px;padding:5px 12px;cursor:pointer;margin-top:4px;"><span class="note-dance" style="margin-right:3px;">♪</span> play on page</button>
           </div>
 
 
@@ -888,8 +959,8 @@ a { color: var(--lavender, #8b5cf6); }
             <p style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--ink-soft);margin-bottom:4px;line-height:1.5;">Space Age Electronica, Vol. 1</p>
             <p style="font-family:'Space Mono',monospace;font-size:.62rem;color:var(--ink-soft);margin-bottom:14px;">℗ 2019 &middot; Apr 25, 2020</p>
 
-            <a href="https://www.youtube.com/watch?v=CMxKq3wU5Ok&list=PLETc0a8Y6tFukGRmPXLgUHg1aUW0hC-FZ" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;margin-bottom:10px;" target="_blank" rel="noopener">▶ Listen</a><br>
-            <button onclick="playMood('soul')" style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--lavender);background:none;border:1px solid var(--lavender);border-radius:100px;padding:5px 12px;cursor:pointer;margin-top:4px;"><span class="note-dance" style="margin-right:3px;">♪</span> play in widget</button>
+            <a href="https://open.spotify.com/album/6hUWsijPijdiVuQ3oPHVjs" class="btn primary" style="font-size:.65rem;padding:8px 16px;display:inline-block;margin-bottom:10px;" target="_blank" rel="noopener">▶ Listen</a><br>
+            <button onclick="playMood('soul')" style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.06em;color:var(--lavender);background:none;border:1px solid var(--lavender);border-radius:100px;padding:5px 12px;cursor:pointer;margin-top:4px;"><span class="note-dance" style="margin-right:3px;">♪</span> play on page</button>
           </div>
 
         </div>
@@ -942,26 +1013,34 @@ a { color: var(--lavender, #8b5cf6); }
         <div class="eyebrow" style="margin-bottom:2px;">Music Video &mdash; Cup of Tea</div>
         <p style="font-family:'Fraunces',serif;font-size:.78rem;font-style:italic;color:var(--ink-soft);margin:0 0 10px;">dir: Jianda Monique</p>
         <div class="video-wrap">
-          <a class="yt-link" href="https://www.youtube.com/watch?v=RQWS0gyI34A" target="_blank" rel="noopener" aria-label="Watch Cup of Tea on YouTube">
-            <img src="https://img.youtube.com/vi/RQWS0gyI34A/hqdefault.jpg" alt="Cup of Tea — Jianda Monique (QWOCMAP)" loading="lazy">
+          <a class="yt-link" href="https://open.spotify.com/track/1bJAwoPIyanyN1HMMl6mJg" target="_blank" rel="noopener" aria-label="Play Cup of Tea on Spotify">
+            <img src="https://i.scdn.co/image/ab67616d0000b27392abd10c3eb33540a30c1ac2" alt="Cup of Tea — Jianda Monique (Spotify cover art)" loading="lazy">
             <span class="yt-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
           </a>
         </div>
         <p style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink-soft);margin-top:10px;">
           Selected for QWOCMAP (Queer Women of Color Media Arts Project) Film Festival
         </p>
+        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="https://open.spotify.com/track/1bJAwoPIyanyN1HMMl6mJg" class="btn primary" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">▶ play on page</a>
+          <a href="https://www.youtube.com/watch?v=RQWS0gyI34A" class="btn outline" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">🎬 Watch music video (opens in new tab)</a>
+        </div>
 
         <div class="eyebrow" style="margin-bottom:2px;margin-top:28px;">Music Video &mdash; Feel Our Way</div>
         <p style="font-family:'Fraunces',serif;font-size:.78rem;font-style:italic;color:var(--ink-soft);margin:0 0 10px;">dir: Jianda Monique</p>
         <div class="video-wrap">
-          <a class="yt-link" href="https://www.youtube.com/watch?v=aFjbRN7p7XU" target="_blank" rel="noopener" aria-label="Watch Feel Our Way on YouTube">
-            <img src="https://img.youtube.com/vi/aFjbRN7p7XU/hqdefault.jpg" alt="Feel Our Way — Jianda Monique" loading="lazy">
+          <a class="yt-link" href="https://open.spotify.com/track/60rXKhq6PYaWpzMf9XncSM" target="_blank" rel="noopener" aria-label="Play Feel Our Way on Spotify">
+            <img src="https://i.scdn.co/image/ab67616d0000b27304a5ec91e784a262d85501a4" alt="Feel Our Way — Jianda Monique (Spotify cover art)" loading="lazy">
             <span class="yt-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
           </a>
         </div>
         <p style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink-soft);margin-top:10px;">
           Written, directed, and distributed independently
         </p>
+        <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="https://open.spotify.com/track/60rXKhq6PYaWpzMf9XncSM" class="btn primary" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">▶ play on page</a>
+          <a href="https://www.youtube.com/watch?v=aFjbRN7p7XU" class="btn outline" style="font-size:.65rem;padding:8px 16px;" target="_blank" rel="noopener">🎬 Watch music video (opens in new tab)</a>
+        </div>
       </div>
 
     </div>
@@ -1768,7 +1847,7 @@ a { color: var(--lavender, #8b5cf6); }
         color:#fff;text-decoration:none;transition:background .15s;
       " onmouseover="this.style.background='rgba(139,92,246,.3)'" onmouseout="this.style.background='rgba(255,255,255,.07)'">
         <div style="font-size:1.4rem;margin-bottom:6px;">⌨</div>
-        <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);">Builder</div>
+        <div style="font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);">Apps &amp; Games</div>
       </a>
       <a href="#wip" onclick="closeTour()" style="
         display:block;padding:18px 12px;border-radius:10px;
@@ -1879,7 +1958,7 @@ a { color: var(--lavender, #8b5cf6); }
         " onfocus="this.style.borderColor='var(--lavender)'" onblur="this.style.borderColor='var(--line)'"></textarea>
         <button type="submit" class="btn primary" style="align-self:flex-start;">Send &rarr;</button>
       </form>
-      <p id="cf-fallback" style="display:none;margin-top:14px;font-size:.8rem;color:var(--ink-soft);line-height:1.6;">Your email app should have just opened with this pre-filled. If nothing happened, no default mail app is set up on this device — email me directly at <a href="mailto:heartsongs101@gmail.com">heartsongs101@gmail.com</a> instead.</p>
+      <p id="cf-fallback" style="display:none;margin-top:14px;font-size:.8rem;color:var(--ink-soft);line-height:1.6;">Your email app should have just opened with this pre-filled. If nothing happened, no default mail app is set up on this device — please email <a href="mailto:heartsongs101@gmail.com">heartsongs101@gmail.com</a> - all set!</p>
     </div>
 
     <div style="margin-top:52px;padding-top:40px;border-top:1px solid var(--line);max-width:580px;margin-left:auto;margin-right:auto;">
@@ -1895,8 +1974,16 @@ a { color: var(--lavender, #8b5cf6); }
 <!-- FOOTER -->
 <footer>
   <p>Jianda Monique &mdash; <a href="https://jiandamonique.com" target="_blank" rel="noopener">jiandamonique.com</a> &mdash; <a href="https://www.linkedin.com/in/jiandamonique/" target="_blank" rel="noopener">LinkedIn</a></p>
+  <p style="font-size:.7rem;color:var(--ink-soft);margin-top:8px;">Most links on this page open in a new tab.</p>
 </footer>
 
+
+<!-- PAINTING LIGHTBOX -->
+<div class="lightbox-overlay" id="lightbox-overlay" onclick="if(event.target===this) closeLightbox();">
+  <button class="lightbox-close" onclick="closeLightbox()" aria-label="Close">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-caption"></div>
+</div>
 
 <!-- AMBIENT PLAYER WIDGET -->
 <div id="ambient-widget" style="
@@ -1970,7 +2057,8 @@ a { color: var(--lavender, #8b5cf6); }
       height="135"
       src=""
       title="Music mix"
-      allow="autoplay; encrypted-media"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen
       style="display:block;border:0;"
     ></iframe>
@@ -1983,8 +2071,8 @@ var ambientOpen = false;
 var currentMood = null;
 
 var moodSrcs = {
-  lofi: 'https://www.youtube.com/embed/KXYTUATr1xg?autoplay=1&controls=1&modestbranding=1&rel=0',
-  soul: 'https://www.youtube.com/embed/CMxKq3wU5Ok?autoplay=1&controls=1&modestbranding=1&rel=0',
+  lofi: 'https://www.youtube.com/embed/gRy9Vj3S5DU?si=JYVrmjORU6YvPjLJ&autoplay=1&controls=1&modestbranding=1&rel=0',
+  soul: 'https://www.youtube.com/embed/CMxKq3wU5Ok?si=zDGfHapqo1xPAom4&autoplay=1&controls=1&modestbranding=1&rel=0',
   live: 'https://www.youtube.com/embed/videoseries?autoplay=1&controls=1&list=PLETc0a8Y6tFt-kZ08rEviTG6vKzuqLSfr'
 };
 var moodLabels = { lofi: '♪ lo-fi', soul: '✦ electronic', live: '▶ live sets' };
@@ -2010,6 +2098,34 @@ function playMood(mood) {
   if (lofiCard) lofiCard.style.borderColor  = mood === 'lofi' ? 'var(--lavender)' : 'var(--line)';
   if (soulCard) soulCard.style.borderColor  = mood === 'soul' ? 'var(--accent)'   : 'var(--line)';
 }
+
+/* ── Painting lightbox ─────────────────────────────────── */
+function openLightbox(imgEl) {
+  var overlay = document.getElementById('lightbox-overlay');
+  var img     = document.getElementById('lightbox-img');
+  var caption = document.getElementById('lightbox-caption');
+  img.src = imgEl.src;
+  img.alt = imgEl.alt;
+  caption.textContent = imgEl.alt || '';
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  var overlay = document.getElementById('lightbox-overlay');
+  var img     = document.getElementById('lightbox-img');
+  overlay.classList.remove('open');
+  img.src = '';
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+document.querySelectorAll('.painting-img').forEach(function(img) {
+  img.addEventListener('click', function() { openLightbox(img); });
+});
 
 function closeAmbient() {
   var player = document.getElementById('ambient-player');
